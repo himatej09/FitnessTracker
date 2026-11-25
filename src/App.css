@@ -1,3 +1,12 @@
+.app-shell {
+  min-height: 100vh;
+  color: #17251f;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(196, 226, 210, .55), transparent 25rem),
+    #f4f7f5;
+  font-family: 'Inter', sans-serif;
+}
+
 .app-nav {
   display: flex;
   min-height: 64px;
@@ -6,8 +15,10 @@
   gap: 20px;
   padding: 12px 32px;
   color: #fff;
-  background: #0f172a;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, .12);
+  background: rgba(20, 38, 31, .96);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  box-shadow: 0 8px 24px rgba(21, 45, 35, .10);
+  backdrop-filter: blur(14px);
 }
 
 .app-brand {
@@ -36,7 +47,10 @@
 .role-admin { color: #ffe4e4; background: #923d4b; }
 .app-nav-links { display: flex; align-items: center; gap: 18px; }
 .app-nav-link {
-  padding: 8px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 9px;
   border: 0;
   color: #b6c0d0;
   background: transparent;
@@ -60,6 +74,32 @@
 .app-main { max-width: 1160px; min-height: calc(100vh - 64px); margin: 0 auto; padding: 30px 22px; }
 .app-page { animation: page-appear .2s ease-out; }
 @keyframes page-appear { from { opacity: .7; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+
+.brand-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  background: #e1b86b;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.28);
+}
+
+.app-nav-link:hover,
+.app-nav-link-active {
+  color: #dff1e7;
+  background: rgba(173, 213, 192, .13);
+}
+
+.logout-button {
+  border: 1px solid rgba(255,255,255,.08);
+  color: #e7f0eb;
+  background: #29483b;
+}
+
+.logout-button:hover {
+  background: #35604f;
+}
 
 .page { display: grid; gap: 18px; }
 .page > h1 { margin: 0; color: #1e293b; font-size: clamp(24px, 3vw, 30px); letter-spacing: -.6px; }
@@ -194,6 +234,119 @@
 .progress-day { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: #526174; font-size: 11px; }
 .progress-bar { height: 8px; overflow: hidden; border-radius: 99px; background: #edf0f5; }
 .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6d71dc, #9b9cf2); }
+
+/* Refined fitness palette */
+.page-heading {
+  border: 1px solid #dfe9e3;
+  background:
+    radial-gradient(circle at 88% 15%, rgba(189, 219, 202, .55), transparent 13rem),
+    linear-gradient(120deg, #fff, #f9fcfa);
+  box-shadow: 0 8px 24px rgba(31, 69, 51, .035);
+}
+
+.page-heading h1,
+.page > h1 {
+  color: #1b3227;
+}
+
+.eyebrow,
+.today-badge,
+.summary-pill {
+  color: #5d806d;
+}
+
+.today-badge,
+.summary-pill {
+  border-color: #dce9e1;
+  background: #edf6f1;
+}
+
+.dashboard-card,
+.page-box,
+.summary-card {
+  border-color: #dde8e1;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 8px 26px rgba(41, 78, 58, .055);
+}
+
+.dashboard-card {
+  border-top: 3px solid #5b9577;
+  background:
+    radial-gradient(circle at 100% 0, rgba(212, 233, 221, .35), transparent 8rem),
+    #fff;
+}
+
+.dashboard-card:nth-child(2) {
+  border-top-color: #dc9a5a;
+}
+
+.dashboard-card:nth-child(3) {
+  border-top-color: #62a9bc;
+}
+
+.dashboard-card:nth-child(4) {
+  border-top-color: #d2818d;
+}
+
+.dashboard-card h3,
+.summary-card h2,
+.profile-identity h2,
+.page-box h2,
+.page-box h3 {
+  color: #20382c;
+}
+
+.mini-progress-fill,
+.progress-fill {
+  background: linear-gradient(90deg, #4d8769, #86b99b);
+}
+
+.dashboard-card .calorie-fill,
+.calorie-fill {
+  background: linear-gradient(90deg, #dc9558, #edba82);
+}
+
+.dashboard-card .water-fill {
+  background: linear-gradient(90deg, #4b98ac, #82bdc9);
+}
+
+.workout-fill {
+  background: linear-gradient(90deg, #667fc2, #91a5d7);
+}
+
+.page-box form button,
+.page-box > button,
+.login-submit,
+.submit-btn {
+  background: linear-gradient(135deg, #3f7559, #2e6047);
+  box-shadow: 0 8px 18px rgba(46, 96, 71, .16);
+}
+
+.page-box form button:hover,
+.page-box > button:hover {
+  background: #28533e;
+}
+
+.page-box input,
+.page-box select,
+.login-form input,
+.login-form select,
+.form-input {
+  border-radius: 10px;
+  border-color: #dce6df;
+}
+
+.page-box input:focus,
+.page-box select:focus {
+  outline: 3px solid rgba(82, 137, 106, .12);
+  border-color: #6a9b81;
+}
+
+.motivation {
+  border-color: #dbeadf;
+  background: linear-gradient(110deg, #edf6f0, #f8fbf9);
+}
 
 @media (max-width: 720px) {
   .app-nav { flex-wrap: wrap; padding: 12px 16px; }

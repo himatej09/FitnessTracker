@@ -235,18 +235,83 @@
   place-items: center;
   padding: 1.5rem;
   background:
-    radial-gradient(ellipse at 12% 14%, rgba(99, 102, 241, 0.23), transparent 35%),
-    linear-gradient(145deg, #0b0f19, #17213a);
+    radial-gradient(circle at 12% 12%, rgba(137, 193, 166, .23), transparent 28rem),
+    linear-gradient(145deg, #101a16, #1c3028);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .login-card {
-  width: min(100%, 410px);
-  padding: 2.4rem;
-  border: 1px solid #edf0f5;
-  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100%, 860px);
+  min-height: 540px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 24px;
   background: #fff;
-  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 28px 70px rgba(3, 16, 10, .38);
+  overflow: hidden;
+}
+
+.login-visual {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.2rem;
+  color: #f7fff9;
+  background:
+    radial-gradient(circle at 85% 18%, rgba(198, 235, 215, .24), transparent 12rem),
+    linear-gradient(145deg, #1f4a39, #15382b);
+}
+
+.login-visual h2 {
+  max-width: 330px;
+  margin: 10px 0 24px;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.02;
+  letter-spacing: -.055em;
+}
+
+.login-visual-eyebrow {
+  margin: 0;
+  color: #a9d6c1;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.login-stat-row {
+  display: flex;
+  gap: 12px;
+}
+
+.login-stat-row div {
+  min-width: 110px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .08);
+}
+
+.login-stat-row strong,
+.login-stat-row span {
+  display: block;
+}
+
+.login-stat-row strong {
+  font-size: 1.25rem;
+}
+
+.login-stat-row span {
+  margin-top: 3px;
+  color: #bad8ca;
+  font-size: .72rem;
+}
+
+.login-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
 }
 
 .login-brand {
@@ -273,6 +338,12 @@
   color: #172033;
   font-size: 1.8rem;
   letter-spacing: -0.05em;
+}
+
+.login-subtitle {
+  margin: 8px 0 20px;
+  color: #718078;
+  font-size: .85rem;
 }
 
 .login-form {
@@ -366,5 +437,30 @@ button:focus-visible {
   .register-form-section,
   .login-card {
     padding: 1.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .login-card {
+    grid-template-columns: 1fr;
+    max-width: 430px;
+    padding: 0;
+  }
+
+  .login-visual {
+    min-height: 210px;
+  }
+
+  .login-visual h2 {
+    max-width: 280px;
+    font-size: 2rem;
+  }
+
+  .login-stat-row {
+    display: none;
+  }
+
+  .login-form-panel {
+    padding: 2rem 1.5rem;
   }
 }

@@ -114,39 +114,52 @@ export default function App() {
     return (
       <div className="login-wrapper">
         <section className="login-card">
-          <div className="login-brand"><span>🏃</span><strong>FITNESS TRACKER</strong></div>
-          <h1>Sign in</h1>
-          <form className="login-form" onSubmit={handleAuth}>
-            <label htmlFor="login-email">Email address</label>
-            <input
-              id="login-email"
-              type="email"
-              autoComplete="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <label htmlFor="login-role">Open module</label>
-            <select id="login-role" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
-              <option value="user">User module</option>
-              <option value="admin">Admin module</option>
-            </select>
-            <label htmlFor="login-password">Password</label>
-            <input
-              id="login-password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            {authMessage && <p className={`login-feedback ${authError ? 'login-feedback-error' : ''}`} role="status">{authMessage}</p>}
-            <button type="submit" className="login-submit">Sign in <span aria-hidden="true">→</span></button>
-          </form>
-          <p className="login-redirect">New here? <button type="button" onClick={() => { setIsSignup(true); setAuthMessage(''); }}>Create an account</button></p>
-          <p className="storage-note">Demo only: passwords and roles are stored in this browser and are not secure.</p>
+          <aside className="login-visual" aria-label="Fitness tracker overview">
+            <div className="login-brand"><span>🏃</span><strong>FITNESS TRACKER</strong></div>
+            <div>
+              <p className="login-visual-eyebrow">BUILD A BETTER ROUTINE</p>
+              <h2>Move with purpose. Feel the progress.</h2>
+              <div className="login-stat-row">
+                <div><strong>7,520</strong><span>steps today</span></div>
+                <div><strong>4</strong><span>workouts</span></div>
+              </div>
+            </div>
+          </aside>
+          <div className="login-form-panel">
+            <h1>Welcome back</h1>
+            <p className="login-subtitle">Sign in to continue to your dashboard.</p>
+            <form className="login-form" onSubmit={handleAuth}>
+              <label htmlFor="login-email">Email address</label>
+              <input
+                id="login-email"
+                type="email"
+                autoComplete="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <label htmlFor="login-role">Open module</label>
+              <select id="login-role" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
+                <option value="user">User module</option>
+                <option value="admin">Admin module</option>
+              </select>
+              <label htmlFor="login-password">Password</label>
+              <input
+                id="login-password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              {authMessage && <p className={`login-feedback ${authError ? 'login-feedback-error' : ''}`} role="status">{authMessage}</p>}
+              <button type="submit" className="login-submit">Sign in <span aria-hidden="true">→</span></button>
+            </form>
+            <p className="login-redirect">New here? <button type="button" onClick={() => { setIsSignup(true); setAuthMessage(''); }}>Create an account</button></p>
+            <p className="storage-note">Demo only: passwords and roles are stored in this browser and are not secure.</p>
+          </div>
         </section>
       </div>
     );
@@ -154,12 +167,14 @@ export default function App() {
 
   // Main App View after Login
   return (
-    <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', backgroundColor: '#f8fafc', minHeight: '100vh', color: '#1e293b' }}>
+    <div className="app-shell">
       
       {/* Navbar */}
       <nav className="app-nav" aria-label="Main navigation">
         <button className="app-brand" onClick={() => setActiveTab('dashboard')}>
-          <span aria-hidden="true">🏃</span> Fitness Tracker <span className={`role-badge role-${role}`}>{role}</span>
+          <span className="brand-mark" aria-hidden="true">🏃</span>
+          <span>Fitness Tracker</span>
+          <span className={`role-badge role-${role}`}>{role}</span>
         </button>
 
         <div className="app-nav-links">
@@ -171,6 +186,7 @@ export default function App() {
                 onClick={() => setActiveTab(tab)}
                 aria-current={activeTab === tab ? 'page' : undefined}
               >
+                <span aria-hidden="true">{{ dashboard: '⌂', workout: '◆', diet: '♨', goals: '◎', progress: '↗', profile: '◉' }[tab]}</span>
                 {tab}
               </button>
             ))
