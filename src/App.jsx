@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Register from './Auth.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Diet from './pages/Diet.jsx';
@@ -6,10 +6,12 @@ import Goals from './pages/Goals.jsx';
 import Profile from './pages/Profile.jsx';
 import Progress from './pages/Progress.jsx';
 import Workout from './pages/Workout.jsx';
+import { getWorkoutStorageKey, parseWorkoutData, readWorkoutData } from './utils/workoutTracking.js';
 import './App.css';
 import './pages/Register.css';
 
 const ACCOUNTS_KEY = 'fitness_tracker_accounts';
+const INITIAL_TIME = Date.now();
 
 function getStoredAccounts() {
   const savedAccounts = localStorage.getItem(ACCOUNTS_KEY);
@@ -33,6 +35,43 @@ export default function App() {
   const [displayName, setDisplayName] = useState(() => localStorage.getItem('logged_in_name') || '');
   const [authMessage, setAuthMessage] = useState('');
   const [authError, setAuthError] = useState(false);
+  const [workoutData, setWorkoutData] = useState(() => ({ email, ...readWorkoutData(email) }));
+  const [currentTime, setCurrentTime] = useState(INITIAL_TIME);
+
+  const workoutStorageKey = getWorkoutStorageKey(email);
+
+  useEffect(() => {
+    const syncWorkouts = (event) => {
+      if (event.key !== workoutStorageKey || !event.newValue) return;
+      try {
+        setWorkoutData({ email, ...parseWorkoutData(event.newValue) });
+      } catch (error) {
+        console.error('Unable to sync saved workout data.', error);
+      }
+    };
+
+    window.addEventListener('storage', syncWorkouts);
+    return () => window.removeEventListener('storage', syncWorkouts);
+  }, [email, workoutStorageKey]);
+
+  useEffect(() => {
+    if (workoutData.email !== email) return;
+    try {
+      localStorage.setItem(workoutStorageKey, JSON.stringify({
+        sessions: workoutData.sessions,
+        activeWorkout: workoutData.activeWorkout,
+        weightKg: workoutData.weightKg,
+      }));
+    } catch (error) {
+      console.error('Unable to save workout data.', error);
+    }
+  }, [email, workoutData, workoutStorageKey]);
+
+  useEffect(() => {
+    if (!workoutData.activeWorkout?.startedAt) return undefined;
+    const timer = window.setInterval(() => setCurrentTime(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [workoutData.activeWorkout]);
 
   const handleAuth = (e) => {
     e.preventDefault();
@@ -72,6 +111,8 @@ export default function App() {
       localStorage.setItem('user_role', accountRole);
       localStorage.setItem('logged_in_name', name);
       localStorage.setItem('last_login_at', new Date().toISOString());
+      setWorkoutData({ email: normalizedEmail, ...readWorkoutData(normalizedEmail) });
+      setCurrentTime(Date.now());
       setEmail(normalizedEmail);
       setDisplayName(name);
       setRole(accountRole);
@@ -248,8 +289,31 @@ export default function App() {
 
         {role === 'user' && (
           <div className="app-page">
-            {activeTab === 'dashboard' && <Dashboard displayName={displayName} />}
-            {activeTab === 'workout' && <Workout />}
+            {activeTab === 'dashboard' && (
+              <Dashboard
+                displayName={displayName}
+                workouts={workoutData.email === email ? workoutData.sessions : []}
+                activeWorkout={workoutData.email === email ? workoutData.activeWorkout : null}
+                currentTime={currentTime}
+              />
+            )}
+            {activeTab === 'workout' && (
+              <Workout
+                sessions={workoutData.email === email ? workoutData.sessions : []}
+                activeWorkout={workoutData.email === email ? workoutData.activeWorkout : null}
+                weightKg={workoutData.email === email ? workoutData.weightKg : 70}
+                currentTime={currentTime}
+                onWeightChange={(weightKg) => setWorkoutData((current) => ({ ...current, email, weightKg }))}
+                onStart={(activeWorkout) => setWorkoutData((current) => ({ ...current, email, activeWorkout }))}
+                onUpdateActive={(activeWorkout) => setWorkoutData((current) => ({ ...current, email, activeWorkout }))}
+                onFinish={(session) => setWorkoutData((current) => ({
+                  ...current,
+                  email,
+                  sessions: [session, ...current.sessions],
+                  activeWorkout: null,
+                }))}
+              />
+            )}
             {activeTab === 'diet' && <Diet />}
             {activeTab === 'goals' && <Goals />}
             {activeTab === 'progress' && <Progress />}

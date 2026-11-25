@@ -1,20 +1,28 @@
-function Dashboard({ displayName }) {
+import { estimateCalories, getElapsedSeconds } from "../utils/workoutTracking.js";
 
+function Dashboard({ displayName, workouts, activeWorkout, currentTime }) {
   const steps = 7520;
   const stepGoal = 10000;
 
-  const calories = 520;
   const calorieGoal = 2000;
 
   const water = 2.1;
   const waterGoal = 3;
 
   const heartRate = 78;
-  const workouts = 4;
   const workoutGoal = 5;
 
+  const today = new Date(currentTime).toDateString();
+  const todayWorkouts = workouts.filter((workout) => new Date(workout.endedAt).toDateString() === today);
+  const weeklyWorkouts = workouts.filter((workout) => currentTime - new Date(workout.endedAt).getTime() < 7 * 24 * 60 * 60 * 1000);
+  const activeCalories = activeWorkout
+    ? estimateCalories(activeWorkout.type, getElapsedSeconds(activeWorkout, currentTime), activeWorkout.weightKg)
+    : 0;
+  const calories = todayWorkouts.reduce((total, workout) => total + workout.calories, 0) + activeCalories;
+  const workoutCount = weeklyWorkouts.length + (activeWorkout ? 1 : 0);
+
   const stepProgress = Math.round((steps / stepGoal) * 100);
-  const workoutProgress = Math.round((workouts / workoutGoal) * 100);
+  const workoutProgress = Math.round((workoutCount / workoutGoal) * 100);
   const calorieProgress = Math.round((calories / calorieGoal) * 100);
   const waterProgress = Math.round((water / waterGoal) * 100);
 
@@ -51,7 +59,7 @@ function Dashboard({ displayName }) {
 
 
         <div className="dashboard-card">
-          <h2><span aria-hidden="true">🔥</span> Calories <span className="metric-tag">BURNED</span></h2>
+          <h2><span aria-hidden="true">🔥</span> Calories <span className="metric-tag">TODAY</span></h2>
           <h3>{calories} kcal</h3>
           <p>Daily Goal: {calorieGoal} kcal</p>
           <div className="mini-progress">
@@ -94,7 +102,7 @@ function Dashboard({ displayName }) {
         </div>
 
         <h3>
-          {workouts} / {workoutGoal} workouts completed
+          {workoutCount} / {workoutGoal} workouts completed
         </h3>
 
         <div className="mini-progress">
@@ -125,7 +133,7 @@ function Dashboard({ displayName }) {
 
         <p>❤️ Heart Rate: {heartRate} BPM</p>
 
-        <p>🏋️ Workouts: {workouts}</p>
+        <p>🏋️ Workouts this week: {workoutCount}</p>
 
       </div>
 
