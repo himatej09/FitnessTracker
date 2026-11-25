@@ -32,9 +32,14 @@ function Progress() {
   return (
     <div className="page">
 
-      <h1>📊 Progress Report</h1>
-
-      <p>Here is your weekly fitness summary.</p>
+      <header className="page-heading">
+        <div>
+          <span className="eyebrow">YOUR WEEK, AT A GLANCE</span>
+          <h1>📊 Progress Report</h1>
+          <p>Notice the consistency behind every step, workout, and healthy choice.</p>
+        </div>
+        <span className="today-badge">Last 7 days</span>
+      </header>
 
       {/* Summary */}
 
@@ -66,7 +71,12 @@ function Progress() {
 
       <div className="page-box">
 
-        <h2>👟 Weekly Steps</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">DAILY MOVEMENT</span>
+            <h2>👟 Weekly Steps</h2>
+          </div>
+        </div>
 
         {weeklyData.map((day) => (
 
@@ -96,7 +106,12 @@ function Progress() {
 
       <div className="page-box">
 
-        <h2>🔥 Daily Calories Burned</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">ENERGY OUTPUT</span>
+            <h2>🔥 Daily Calories Burned</h2>
+          </div>
+        </div>
 
         {weeklyData.map((day) => (
 
@@ -126,14 +141,24 @@ function Progress() {
 
       <div className="page-box">
 
-        <h2>🏋️ Workout Summary</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">TIME WELL SPENT</span>
+            <h2>🏋️ Workout Summary</h2>
+          </div>
+        </div>
 
         {weeklyData.map((day) => (
 
-          <p key={day.day}>
-            <strong>{day.day}:</strong>{" "}
-            {day.workout} minutes
-          </p>
+          <div className="progress-row" key={day.day}>
+            <div className="progress-day">
+              <span>{day.day}</span>
+              <span>{day.workout} min</span>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill workout-fill" style={{ width: `${Math.min(day.workout / 70 * 100, 100)}%` }}></div>
+            </div>
+          </div>
 
         ))}
 

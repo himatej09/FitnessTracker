@@ -43,17 +43,30 @@ function Diet() {
     (total, food) => total + Number(food.calories),
     0
   );
+  const calorieTarget = 2000;
+  const calorieProgress = Math.min(Math.round((totalCalories / calorieTarget) * 100), 100);
 
   return (
     <div className="page">
 
-      <h1>🍎 Diet & Calorie Tracker</h1>
+      <header className="page-heading">
+        <div>
+          <span className="eyebrow">FUEL YOUR DAY</span>
+          <h1>🍎 Diet & Calorie Tracker</h1>
+          <p>Keep a simple record of your meals and daily energy intake.</p>
+        </div>
+      </header>
 
       {/* Add Food */}
 
       <div className="page-box">
 
-        <h2>Add Food</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">MEAL JOURNAL</span>
+            <h2>Add Food</h2>
+          </div>
+        </div>
 
         <form onSubmit={addFood}>
 
@@ -99,11 +112,21 @@ function Diet() {
 
       <div className="page-box">
 
-        <h2>🔥 Today's Calories</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">DAILY INTAKE</span>
+            <h2>🔥 Today's Calories</h2>
+          </div>
+          <span className="summary-pill">{calorieProgress}% of target</span>
+        </div>
 
         <h3>{totalCalories} kcal</h3>
 
-        <p>Daily Target: 2000 kcal</p>
+        <p>Daily Target: {calorieTarget} kcal</p>
+        <div className="mini-progress calorie-track" role="progressbar" aria-label="Daily calorie target" aria-valuenow={Math.min(totalCalories, calorieTarget)} aria-valuemin="0" aria-valuemax={calorieTarget}>
+          <div className="mini-progress-fill calorie-fill" style={{ width: `${calorieProgress}%` }}></div>
+        </div>
+        <p>{Math.max(calorieTarget - totalCalories, 0)} kcal to target</p>
 
       </div>
 
@@ -111,7 +134,13 @@ function Diet() {
 
       <div className="page-box">
 
-        <h2>🍽️ Food History</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">TODAY'S MEALS</span>
+            <h2>🍽️ Food History</h2>
+          </div>
+          <span className="summary-pill">{foods.length} items</span>
+        </div>
 
         {foods.map((food, index) => (
 
@@ -119,7 +148,7 @@ function Diet() {
 
             <h3>🍴 {food.name}</h3>
 
-            <p>Meal: {food.meal}</p>
+            <p><span className="meal-label">{food.meal}</span></p>
 
             <p>Calories: {food.calories} kcal</p>
 

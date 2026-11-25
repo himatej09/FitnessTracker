@@ -39,16 +39,36 @@ function Workout() {
     setCalories("");
   };
 
+  const totalMinutes = workouts.reduce((total, workout) => total + Number(workout.duration), 0);
+  const totalCalories = workouts.reduce((total, workout) => total + Number(workout.calories), 0);
+
   return (
     <div className="page">
 
-      <h1>🏋️ Workout Tracker</h1>
+      <header className="page-heading">
+        <div>
+          <span className="eyebrow">MOVE WITH PURPOSE</span>
+          <h1>🏋️ Workout Tracker</h1>
+          <p>Log your sessions and celebrate every bit of progress.</p>
+        </div>
+      </header>
+
+      <div className="workout-stats" aria-label="Workout totals">
+        <div className="workout-stat"><span>Sessions logged</span><strong>{workouts.length}</strong></div>
+        <div className="workout-stat"><span>Total time</span><strong>{totalMinutes} <small>min</small></strong></div>
+        <div className="workout-stat"><span>Calories burned</span><strong>{totalCalories} <small>kcal</small></strong></div>
+      </div>
 
       {/* Add Workout */}
 
       <div className="page-box">
 
-        <h2>Add Workout</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">BUILD YOUR ROUTINE</span>
+            <h2>Add Workout</h2>
+          </div>
+        </div>
 
         <form onSubmit={addWorkout}>
 
@@ -105,7 +125,13 @@ function Workout() {
 
       <div className="page-box">
 
-        <h2>Workout History</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">YOUR RECENT SESSIONS</span>
+            <h2>Workout History</h2>
+          </div>
+          <span className="summary-pill">{workouts.length} logged</span>
+        </div>
 
         {workouts.map((workout, index) => (
 

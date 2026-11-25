@@ -30,13 +30,24 @@ function Goals() {
   return (
     <div className="page">
 
-      <h1>🎯 Fitness Goals</h1>
+      <header className="page-heading">
+        <div>
+          <span className="eyebrow">SMALL STEPS, BIG WINS</span>
+          <h1>🎯 Fitness Goals</h1>
+          <p>Set a target that feels right, then check in on your progress.</p>
+        </div>
+      </header>
 
       {/* Set Goals */}
 
       <div className="page-box">
 
-        <h2>Set Your Goals</h2>
+        <div className="section-title-row">
+          <div>
+            <span className="eyebrow">PERSONAL TARGETS</span>
+            <h2>Set Your Goals</h2>
+          </div>
+        </div>
 
         <label>Daily Step Goal</label>
 
@@ -74,7 +85,8 @@ function Goals() {
 
       {/* Step Goal */}
 
-      <div className="page-box">
+      <div className="goal-grid">
+      <div className="page-box goal-card">
 
         <h2>👟 Step Goal</h2>
 
@@ -93,7 +105,7 @@ function Goals() {
 
       {/* Calorie Goal */}
 
-      <div className="page-box">
+      <div className="page-box goal-card">
 
         <h2>🔥 Calorie Goal</h2>
 
@@ -112,7 +124,7 @@ function Goals() {
 
       {/* Workout Goal */}
 
-      <div className="page-box">
+      <div className="page-box goal-card">
 
         <h2>🏋️ Workout Goal</h2>
 
@@ -131,7 +143,7 @@ function Goals() {
 
       {/* Weight Goal */}
 
-      <div className="page-box">
+      <div className="page-box goal-card">
 
         <h2>⚖️ Weight Goal</h2>
 
@@ -144,6 +156,7 @@ function Goals() {
           {Math.max(currentWeight - weightGoal, 0)} kg
         </p>
 
+      </div>
       </div>
 
     </div>
